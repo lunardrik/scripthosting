@@ -15,18 +15,17 @@
 		
 		var recordId = getParameterByName("record");
 		if (recordId != null && typeof(recordId) !== 'undefined') {
-			getDetailTable(recordId, function(data) {
-				var detail = data.record.Detail;
+			data = getDetailTable(recordId);
+			var detail = data.record.Detail;
 				
-				for(var i = 0; i < detail.value.length; i++) {
-					var rec = detail.value[i];
-					record['Detail']['value'].push(rec);
-				}
-			});
+			for(var i = 0; i < detail.value.length; i++) {
+				var rec = detail.value[i];
+				record['Detail']['value'].push(rec);
+			}
 		}
 		
-		var newrec = {"id":"4590","value":{"amount":{"type":"CALC","value":"23981"},"unitjp_vn":{"type":"CALC","value":"1980"},"Multi_line_text":{"type":"MULTI_LINE_TEXT","value":"sacdsdsd"},"unit":{"type":"NUMBER","value":"1"},"unitus_vn":{"type":"CALC","value":"22000"},"unitjp":{"type":"NUMBER","value":"11"},"Number":{"type":"NUMBER","value":"111"},"unitus":{"type":"NUMBER","value":"1"},"q_ty":{"type":"NUMBER","value":"1"}}};
-		record['Detail']['value'].push(newrec);
+		// var newrec = {"id":"4590","value":{"amount":{"type":"CALC","value":"23981"},"unitjp_vn":{"type":"CALC","value":"1980"},"Multi_line_text":{"type":"MULTI_LINE_TEXT","value":"sacdsdsd"},"unit":{"type":"NUMBER","value":"1"},"unitus_vn":{"type":"CALC","value":"22000"},"unitjp":{"type":"NUMBER","value":"11"},"Number":{"type":"NUMBER","value":"111"},"unitus":{"type":"NUMBER","value":"1"},"q_ty":{"type":"NUMBER","value":"1"}}};
+		// record['Detail']['value'].push(newrec);
 		
 		
 		$( "#getDetail" ).bind( "click", function() {
@@ -39,16 +38,17 @@
 		return e;
     });
 	
-	function getDetailTable(recordId, callback) {
+	function getDetailTableSync(recordId) {
 		var apiUrl = "https://kintoneivsdemo.cybozu.com/k/v1/record.json?app=610&id={0}"
 		
-		$.ajax({
-			type: "GET",
-			dataType: "json",
-			url: apiUrl.replace("{0}", recordId),
-			success: typeof(callback) == 'undefined' ? defaultCallback : callback,
-			beforeSend: setHeader
-		});
+		return	$.ajax({
+					type: "GET",
+					dataType: "json",
+					url: apiUrl.replace("{0}", recordId),
+					// success: typeof(callback) == 'undefined' ? defaultCallback : callback,
+					beforeSend: setHeader,
+					async: false
+				}).responseJSON;
 	}
 	
 	function defaultCallback(data) {
