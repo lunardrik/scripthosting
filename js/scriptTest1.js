@@ -4,11 +4,28 @@
 	var eventsShow = [
 		'app.record.create.show', 
 		'app.record.edit.show', 
-		'app.record.index.edit.show'
+		'app.record.index.edit.show',
+		
+		'app.record.index.show',
+		'app.record.index.edit.show',
+		'app.record.index.edit.show',
+		'app.record.index.edit.change.Lookup_0',
+		'app.record.index.delete.submit',
+		'app.record.detail.show',
+		'app.record.detail.delete.submit',
+		'app.record.detail.process.proceed',
+		'app.record.create.submit',
+		'app.record.create.change.Lookup_0',
+		'app.record.edit.show',
+		'app.record.edit.submit',
+		'app.record.edit.change.Lookup_0',
+		
 	];
     
 	kintone.events.on(eventsShow, function(e) {
 		var record = e.record;
+		
+		console.debug(record);
 		
 		// get app record id if available
 		var recordId = getParameterByName("record");
@@ -25,7 +42,7 @@
 		return e;
     });
 	
-	kintone.events.on(['app.record.create.change.Lookup_0', 'app.record.edit.change.Lookup_0', 'app.record.index.edit.change.Lookup_0'], function(e) {
+	kintone.events.on(['app.record.create.change.lookup_0', 'app.record.edit.change.lookup_0', 'app.record.index.edit.change.lookup_0'], function(e) {
 		var record = e.record;
 	});
 	
