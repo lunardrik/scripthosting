@@ -15,7 +15,7 @@
 		
 		var recordId = getParameterByName("record");
 		if (recordId != null && typeof(recordId) !== 'undefined') {
-			data = getDetailTable(recordId);
+			data = getDetailTableSync(recordId);
 			var detail = data.record.Detail;
 				
 			for(var i = 0; i < detail.value.length; i++) {
