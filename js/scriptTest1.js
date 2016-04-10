@@ -7,7 +7,7 @@
 		'app.record.index.edit.show'
 	];
     
-	kintone.events.on('app.record.create.show', function(e) {
+	kintone.events.on(eventsShow, function(e) {
 		var record = e.record;
 		
 		// get app record id if available
@@ -25,7 +25,7 @@
 		return e;
     });
 	
-	kintone.events.on(['app.record.create.change.Lookup_0', 'app.record.edit.change.Lookup_0'], function(e) {
+	kintone.events.on(['app.record.create.change.Lookup_0', 'app.record.edit.change.Lookup_0', 'app.record.index.edit.change.Lookup_0'], function(e) {
 		var record = e.record;
 	});
 	
