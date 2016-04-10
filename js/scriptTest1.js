@@ -3,38 +3,21 @@
 	
 	var eventsShow = ['app.record.create.show', 'app.record.edit.show', 'app.record.index.edit.show'];
     kintone.events.on(eventsShow, function(e) {
-		
 		var record = e.record;
-        //var count = record.receipts.value.length;
-		
-		
-		console.debug(record);
-		
-        $(".gaia-ui-actionmenu").append( "<input type ='button' id='getDetail' value = 'Get Detail' />  " )
-	    
 		
 		var recordId = getParameterByName("record");
 		if (recordId != null && typeof(recordId) !== 'undefined') {
-			data = getDetailTableSync(recordId);
+			record.Detail.value.length = 0;
+			
+			var data = getDetailTableSync(recordId);
 			var detail = data.record.Detail;
 				
 			for(var i = 0; i < detail.value.length; i++) {
 				var rec = detail.value[i];
-				record['Detail']['value'].push(rec);
+				record.Detail.value.push(rec);
 			}
 		}
 		
-		// var newrec = {"id":"4590","value":{"amount":{"type":"CALC","value":"23981"},"unitjp_vn":{"type":"CALC","value":"1980"},"Multi_line_text":{"type":"MULTI_LINE_TEXT","value":"sacdsdsd"},"unit":{"type":"NUMBER","value":"1"},"unitus_vn":{"type":"CALC","value":"22000"},"unitjp":{"type":"NUMBER","value":"11"},"Number":{"type":"NUMBER","value":"111"},"unitus":{"type":"NUMBER","value":"1"},"q_ty":{"type":"NUMBER","value":"1"}}};
-		// record['Detail']['value'].push(newrec);
-		
-		
-		$( "#getDetail" ).bind( "click", function() {
-			var recordId = getParameterByName("record");
-			if (recordId != null && typeof(recordId) !== 'undefined') {
-				getDetailTable(recordId);
-			}
-		});
-  
 		return e;
     });
 	
@@ -49,10 +32,6 @@
 					beforeSend: setHeader,
 					async: false
 				}).responseJSON;
-	}
-	
-	function defaultCallback(data) {
-		console.debug(data.record.Detail);
 	}
 	
 	function setHeader(xhr) {
