@@ -19,7 +19,7 @@
 			var data = getDetailTableSync(recordId);
 			var detail = data.record.Detail;
 			
-			updateDetailTable(detail);
+			updateDetailTable(record, detail);
 		}
 		
 		return e;
@@ -42,7 +42,7 @@
 				}).responseJSON;
 	}
 	
-	function updateDetailTable(detail) {
+	function updateDetailTable(record, detail) {
 		// clear the current record table
 		record.Detail.value.length = 0;
 		
