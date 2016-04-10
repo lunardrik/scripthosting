@@ -8,7 +8,7 @@
 		
 		'app.record.index.show',
 		'app.record.index.edit.show',
-		'app.record.index.edit.show',
+		'app.record.index.edit.submit',
 		'app.record.index.edit.change.Lookup_0',
 		'app.record.index.delete.submit',
 		'app.record.detail.show',
