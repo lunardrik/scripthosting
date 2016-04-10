@@ -25,7 +25,7 @@
 		return e;
     });
 	
-	kintone.events.on('app.record.index.edit.submit', function(e) {
+	kintone.events.on('app.record.create.change.Lookup_0', function(e) {
 		var record = e.record;
 	});
 	
