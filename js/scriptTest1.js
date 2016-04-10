@@ -1,17 +1,15 @@
 (function($) {
     "use strict";
-    function loadJS(src) {
-        document.write('<script type="text/javascript" src="' + src + '"></script>');
-    }
-     
-    loadJS('https://cdn.jsdelivr.net/foundation/5.2.2/js/vendor/jquery.js');
-    loadJS('https://cdn.jsdelivr.net/foundation/5.2.2/js/foundation.min.js');
-    loadJS('https://cdn.jsdelivr.net/foundation/5.2.2/js/vendor/modernizr.js');
-
-
-    // ????????
-    //moment.locale('ja');
-    kintone.events.on("app.record.edit.show", function(e) {
+	
+	var eventsShow = ['app.record.create.show', 'app.record.edit.show', 'app.record.index.edit.show'];
+    kintone.events.on(eventsShow, function(e) {
+		
+		var record = event.record;
+        var count = record.receipts.value.length;
+		
+		
+		console.debug(record);
+		
         $(".gaia-ui-actionmenu").append( "<input type ='button' id='getDetail' value = 'Get Detail' />  " )
 	     
 
@@ -24,8 +22,9 @@
 	function getDetailTable(recordId) {
 		var apiUrl = "https://kintoneivsdemo.cybozu.com/k/v1/record.json?app=610&id={0}"
 		
-		$.getJSON({
+		$.ajax({
 			type: "GET",
+			dataType: "json",
 			url: apiUrl.replace("{0}", recordId),
 			success: function (data) {
 				console.debug(data.record.Detail);
