@@ -1,25 +1,33 @@
 (function($) {
     "use strict";
 	
-	var eventsShow = ['app.record.create.show', 'app.record.edit.show', 'app.record.index.edit.show'];
-    kintone.events.on(eventsShow, function(e) {
+	var eventsShow = [
+		'app.record.create.show', 
+		'app.record.edit.show', 
+		'app.record.index.edit.show'
+	];
+    
+	kintone.events.on('app.record.create.show', function(e) {
 		var record = e.record;
 		
+		// get app record id if available
 		var recordId = getParameterByName("record");
+		
+		// if app record id is available (the record is forwarded from Quotation app)
 		if (recordId != null && typeof(recordId) !== 'undefined') {
-			record.Detail.value.length = 0;
-			
+			// lookup the data with the record id
 			var data = getDetailTableSync(recordId);
 			var detail = data.record.Detail;
-				
-			for(var i = 0; i < detail.value.length; i++) {
-				var rec = detail.value[i];
-				record.Detail.value.push(rec);
-			}
+			
+			updateDetailTable(detail);
 		}
 		
 		return e;
     });
+	
+	kintone.events.on('app.record.index.edit.submit', function(e) {
+		var record = e.record;
+	});
 	
 	function getDetailTableSync(recordId) {
 		var apiUrl = "https://kintoneivsdemo.cybozu.com/k/v1/record.json?app=610&id={0}"
@@ -32,6 +40,17 @@
 					beforeSend: setHeader,
 					async: false
 				}).responseJSON;
+	}
+	
+	function updateDetailTable(detail) {
+		// clear the current record table
+		record.Detail.value.length = 0;
+		
+		// update the table with new data returned
+		for(var i = 0; i < detail.value.length; i++) {
+			var rec = detail.value[i];
+			record.Detail.value.push(rec);
+		}
 	}
 	
 	function setHeader(xhr) {
@@ -48,5 +67,7 @@
 		if (!results[2]) return '';
 		return decodeURIComponent(results[2].replace(/\+/g, " "));
 	}
+	
+	
 })(jQuery);
 
