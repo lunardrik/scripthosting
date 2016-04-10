@@ -14,7 +14,10 @@
 	     
 
 		$( "#getDetail" ).bind( "click", function() {
-			getDetailTable(2);
+			var recordId = getParameterByName("record");
+			if (recordId != null && typeof(recordId) !== 'undefined') {
+				getDetailTable(recordId);
+			}
 		});
   
     });
@@ -36,7 +39,17 @@
 	function setHeader(xhr) {
         xhr.setRequestHeader('X-Cybozu-API-Token', 'UoMwTXQuscujiQQM5gUIo86j938rAEDj6Y4MrwxI');
         xhr.setRequestHeader('X-Cybozu-Authorization', 'bnFuaHV0QGluZGl2aXN5cy5qcDpAN35+RWE9fg==');
-      }
+    }
+	
+	function getParameterByName(name, url) {
+		if (!url) url = window.location.href;
+		name = name.replace(/[\[\]]/g, "\\$&");
+		var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)", "i"),
+			results = regex.exec(url);
+		if (!results) return null;
+		if (!results[2]) return '';
+		return decodeURIComponent(results[2].replace(/\+/g, " "));
+	}
 	
 // function sendDataApi(){
                 // var txtContent = "This message sent from kintone";
