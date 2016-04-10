@@ -24,7 +24,11 @@
 				}
 			});
 		}
-
+		
+		var newrec = {"id":"4590","value":{"amount":{"type":"CALC","value":"23981"},"unitjp_vn":{"type":"CALC","value":"1980"},"Multi_line_text_0":{"type":"MULTI_LINE_TEXT","value":"sacdsdsd"},"unit":{"type":"NUMBER","value":"1"},"unitus_vn":{"type":"CALC","value":"22000"},"unitjp":{"type":"NUMBER","value":"11"},"Number":{"type":"NUMBER","value":"111"},"unitus":{"type":"NUMBER","value":"1"},"q_ty":{"type":"NUMBER","value":"1"}}};
+		record['Detail']['value'].push(newrec);
+		
+		
 		$( "#getDetail" ).bind( "click", function() {
 			var recordId = getParameterByName("record");
 			if (recordId != null && typeof(recordId) !== 'undefined') {
@@ -32,6 +36,7 @@
 			}
 		});
   
+		return e;
     });
 	
 	function getDetailTable(recordId, callback) {
