@@ -4,8 +4,8 @@
 	var eventsShow = ['app.record.create.show', 'app.record.edit.show', 'app.record.index.edit.show'];
     kintone.events.on(eventsShow, function(e) {
 		
-		var record = event.record;
-        var count = record.receipts.value.length;
+		var record = e.record;
+        //var count = record.receipts.value.length;
 		
 		
 		console.debug(record);
