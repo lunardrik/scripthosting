@@ -15,6 +15,8 @@
 		
 		console.debug(record);
 		
+		record.Lookup_0.lookup = true;
+		
 		// get app record id if available
 		var recordId = getParameterByName("record");
 		getDetailTableFromRecordId(record, recordId);
