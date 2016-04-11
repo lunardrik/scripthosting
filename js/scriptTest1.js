@@ -49,7 +49,7 @@
 		
 		var recordId = result.records[0]["$id"].value;
 		
-		getDetailTableFromRecordId(record, recordId);
+		getDetailTableFromRecordId(record.record, recordId);
 		
 		kintone.app.record.set(record);
 	}
