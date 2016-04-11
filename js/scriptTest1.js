@@ -8,7 +8,6 @@
 	];
     
 	kintone.events.on(eventsShow, function(e) {
-		var record = e.record;
 		
 		console.debug(record);
 		
@@ -18,10 +17,18 @@
 		// if app record id is available (the record is forwarded from Quotation app)
 		if (recordId != null && typeof(recordId) !== 'undefined') {
 			// lookup the data with the record id
-			var data = getDetailTableSync(recordId);
-			var detail = data.record.Detail;
+			// var data = getDetailTableSync(recordId);
+			// var detail = data.record.Detail;
 			
-			updateDetailTable(record, detail);
+			// updateDetailTable(record, detail);
+			return getDetailTablePromises(610, recordId).then(function(data) {
+				var record = e.record;
+				var detail = data.record.Detail;
+				
+				updateDetailTable(record, detail);
+				
+				return e;
+			});
 		}
 		
 		return e;
@@ -38,6 +45,15 @@
 					beforeSend: setHeader,
 					async: false
 				}).responseJSON;
+	}
+	
+	function getDetailTablePromises(appId, recordId) {
+		return kintone.api('/k/v1/record', 'GET', {app: appId, id: recordId}).then(function(resp) {
+			// success
+			return resp;
+		}, function(resp) {
+			// error
+		});
 	}
 	
 	function updateDetailTable(record, detail) {
