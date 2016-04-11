@@ -8,6 +8,9 @@
 	];
     
 	kintone.events.on(eventsShow, function(e) {
+		
+		$(".field-5204695 > div.value-5204695 > div.component-app-lookup-inputlookup > button.input-lookup-gaia").click(lookupQuotation);
+		
 		var record = e.record;
 		
 		console.debug(record);
@@ -27,14 +30,28 @@
 		return e;
     });
 	
+	function lookupQuotation() {
+		var record = kintone.app.record.get();
+		var lookupValue = record.record.Lookup_0.value;
+				
+		if (lookupValue == '' || typeof(lookupValue) == 'undefined') {
+			return;
+		}
+		
+		
+	}
+	
 	function getDetailTableSync(recordId) {
-		var apiUrl = "/k/v1/record.json?app=610&id={0}"
+		var apiUrl = "/k/v1/record.json"
 		
 		return	$.ajax({
 					type: "GET",
 					dataType: "json",
-					url: apiUrl.replace("{0}", recordId),
-					// success: typeof(callback) == 'undefined' ? defaultCallback : callback,
+					url: apiUrl,
+					data: {
+						"app" : 610,
+						"id": recordId
+					},
 					beforeSend: setHeader,
 					async: false
 				}).responseJSON;
