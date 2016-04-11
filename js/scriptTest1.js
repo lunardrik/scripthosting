@@ -9,7 +9,7 @@
     
 	kintone.events.on(eventsShow, function(e) {
 		
-		console.debug(record);
+		// console.debug(record);
 		
 		// get app record id if available
 		var recordId = getParameterByName("record");
