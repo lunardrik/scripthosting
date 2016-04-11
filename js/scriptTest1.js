@@ -1,6 +1,7 @@
 (function($) {
     "use strict";
 	
+	// the events that the function will be applied to
 	var eventsShow = [
 		'app.record.create.show', 
 		'app.record.edit.show', 
@@ -8,17 +9,22 @@
 	];
     
 	kintone.events.on(eventsShow, function(e) {
-		
+		// bind click event to the lookup button
 		$(".field-5204695 > div.value-5204695 > div.component-app-lookup-inputlookup > button.input-lookup-gaia").click(lookupQuotation);
 		
 		var record = e.record;
 		
-		console.debug(record);
+		// console.debug(record);
 		
-		record.Lookup_0.lookup = true;
+		// start lookup for the first time the record showed up if the value is not empty
+		if (typeof(record.Lookup_0.value) != 'undefined' && record.Lookup_0.value != "")
+		{
+			record.Lookup_0.lookup = true;
+		}
 		
 		// get app record id if available
 		var recordId = getParameterByName("record");
+		// get Detail table based on the recordId
 		getDetailTableFromRecordId(record, recordId);
 		
 		return e;
@@ -28,11 +34,13 @@
 		var apiUrl = "/k/v1/records.json";
 		var record = kintone.app.record.get();
 		var lookupValue = record.record.Lookup_0.value;
-				
+		
+		// if the lookup value is empty, return
 		if (lookupValue == '' || typeof(lookupValue) == 'undefined') {
 			return;
 		}
 		
+		// search for the record based on Quotation_No
 		var result = $.ajax({
 					type: "GET",
 					dataType: "json",
@@ -44,15 +52,19 @@
 					beforeSend: setHeader,
 					async: false
 				}).responseJSON;
-				
+		
+		// if there are no record found, retun
 		if (result.records.length == 0) {
 			return;
 		}
 		
+		// get the first found recordId
 		var recordId = result.records[0]["$id"].value;
 		
+		// get the Detail table based on the recordId
 		getDetailTableFromRecordId(record.record, recordId);
 		
+		// flush the record value into the UI
 		kintone.app.record.set(record);
 	}
 	
@@ -63,6 +75,7 @@
 			var data = getDetailTableSync(recordId);
 			var detail = data.record.Detail;
 			
+			// update data table rows
 			updateDetailTable(record, detail);
 		}
 	}
@@ -95,10 +108,13 @@
 	}
 	
 	function setHeader(xhr) {
+		// set header for api token
         xhr.setRequestHeader('X-Cybozu-API-Token', 'UoMwTXQuscujiQQM5gUIo86j938rAEDj6Y4MrwxI');
+		// set header for authorization token
         xhr.setRequestHeader('X-Cybozu-Authorization', 'bnFuaHV0QGluZGl2aXN5cy5qcDpAN35+RWE9fg==');
     }
 	
+	// get the param value from querystring
 	function getParameterByName(name, url) {
 		if (!url) url = window.location.href;
 		name = name.replace(/[\[\]]/g, "\\$&");
